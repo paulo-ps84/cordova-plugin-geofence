@@ -9,6 +9,10 @@ public class GeoNotification {
     @Expose public double longitude;
     @Expose public int radius;
     @Expose public int transitionType;
+    @Expose public int loiteringDelay;
+
+    @Expose public String url;
+    @Expose public String authorization;
 
     @Expose public Notification notification;
 
@@ -20,6 +24,7 @@ public class GeoNotification {
             .setRequestId(id)
             .setTransitionTypes(transitionType)
             .setCircularRegion(latitude, longitude, radius)
+            .setLoiteringDelay(loiteringDelay == 0 ? 60 * 60 * 1000 : loiteringDelay)
             .setExpirationDuration(Long.MAX_VALUE).build();
     }
 
