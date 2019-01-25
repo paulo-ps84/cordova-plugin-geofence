@@ -22,27 +22,20 @@ public class RemoveGeofenceCommand extends AbstractGoogleServiceCommand {
         if (geofencesIds != null && geofencesIds.size() > 0) {
             logger.log(Log.DEBUG, "Removing geofences...");
             GeofencingClient geofencingClient = LocationServices.getGeofencingClient(this.context);
-            geofencingClient
-                    .removeGeofences(geofencesIds)
-		    .addOnSuccessListener(this, new OnSuccessListener<Void>()
-                    {
-                        @Override
-                        public void onSuccess(Void aVoid)
-                        {
-			    logger.log(Log.DEBUG, "Geofences successfully removed");
-                            CommandExecuted();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener()
-                    {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-			    String message = "Removing geofences failed - " + e.getMessage();
-                            logger.log(Log.ERROR, message);
-                            CommandExecuted(new Error(message));
-                        }
-                    });                    
+            geofencingClient.removeGeofences(geofencesIds).addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    logger.log(Log.DEBUG, "Geofences successfully removed");
+                    CommandExecuted();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String message = "Removing geofences failed - " + e.getMessage();
+                    logger.log(Log.ERROR, message);
+                    CommandExecuted(new Error(message));
+                }
+            });
         } else {
             logger.log(Log.DEBUG, "Tried to remove Geofences when there were none");
             CommandExecuted();

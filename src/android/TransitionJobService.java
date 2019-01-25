@@ -28,19 +28,17 @@ public class TransitionJobService extends JobService {
         final String transition = params.getString("transition");
         final String date = params.getString("date");
 
-        Thread thread = new Thread(
-		new Runnable() { 
-            	   public void run(){        
-			try {
-				sendTransitionToServer(url, authorization, id, transition, date);
-				jobFinished(jobParameters, false);
-			    } catch (Exception exception) {
-				// It is possible to have no network during transition from Cellular to Wifi
-				Log.e(GeofencePlugin.TAG, "Error while sending geofence transition, rescheduling", exception);
-				jobFinished(jobParameters, true);
-			    }
-            	   }
-		}
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    sendTransitionToServer(url, authorization, id, transition, date);
+                    jobFinished(jobParameters, false);
+                } catch (Exception exception) {
+                    // It is possible to have no network during transition from Cellular to Wifi
+                    Log.e(GeofencePlugin.TAG, "Error while sending geofence transition, rescheduling", exception);
+                    jobFinished(jobParameters, true);
+                }
+            }
         });
         thread.start();
 
@@ -52,7 +50,8 @@ public class TransitionJobService extends JobService {
         return false;
     }
 
-    private void sendTransitionToServer(String urlString, String authorization, String id, String transition, String date) throws Exception {
+    private void sendTransitionToServer(String urlString, String authorization, String id, String transition,
+            String date) throws Exception {
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(10000);
@@ -67,9 +66,9 @@ public class TransitionJobService extends JobService {
         conn.setRequestProperty("Content-Type", "application/json");
 
         OutputStream os = conn.getOutputStream();
-        BufferedWriter writer = new BufferedWriter(
-                new OutputStreamWriter(os, "UTF-8"));
-        String json = "{ \"geofenceId\": \"" + id + "\",  \"transition\": \"" + transition + "\", \"date\": \"" + date +"\" }";
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        String json = "{ \"geofenceId\": \"" + id + "\",  \"transition\": \"" + transition + "\", \"date\": \"" + date
+                + "\" }";
         Log.i(GeofencePlugin.TAG, "Sending Geofence transition to server: " + json);
         writer.write(json);
         writer.flush();
