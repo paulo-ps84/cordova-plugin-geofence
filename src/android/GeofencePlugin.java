@@ -27,7 +27,7 @@ public class GeofencePlugin extends CordovaPlugin {
     public static final String ERROR_GEOFENCE_NOT_AVAILABLE = "GEOFENCE_NOT_AVAILABLE";
     public static final String ERROR_GEOFENCE_LIMIT_EXCEEDED = "GEOFENCE_LIMIT_EXCEEDED";
 
-    private GeoNotificationManager geoNotificationManager;
+    private static GeoNotificationManager geoNotificationManager;
     private Context context;
     public static CordovaWebView webView = null;
 
@@ -113,6 +113,13 @@ public class GeofencePlugin extends CordovaPlugin {
         Log.d(TAG, "Transition Event Received!");
         String js = "setTimeout('geofence.onTransitionReceived("
             + Gson.get().toJson(notifications) + ")',0)";
+
+        List<String> ids = new List<String>();
+        for(GeoNotification notification : notifications){
+            ids.add(notification.id);
+        }
+        geoNotificationManager.removeGeoNotifications(ids, null);
+
         if (webView == null) {
             Log.d(TAG, "Webview is null");
         } else {
