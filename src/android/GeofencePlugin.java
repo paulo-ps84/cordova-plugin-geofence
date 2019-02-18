@@ -114,7 +114,7 @@ public class GeofencePlugin extends CordovaPlugin {
         String js = "setTimeout('geofence.onTransitionReceived("
             + Gson.get().toJson(notifications) + ")',0)";
 
-        List<String> ids = new List<String>();
+        List<String> ids = new ArrayList<String>();
         for(GeoNotification notification : notifications){
             ids.add(notification.id);
         }
