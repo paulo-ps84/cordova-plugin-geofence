@@ -336,7 +336,7 @@ extension JSON : Swift.Collection {
     }
 }
 
-public struct JSONIndex: Comparable, _Incrementable, Equatable {
+public struct JSONIndex: Comparable, Equatable {
 
     let arrayIndex: Int?
     let dictionaryIndex: Dictionary<String, AnyObject>.Index?

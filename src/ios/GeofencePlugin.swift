@@ -9,6 +9,7 @@
 import Foundation
 import AudioToolbox
 import WebKit
+import UserNotifications
 
 let TAG = "GeofencePlugin"
 let iOS8 = floor(NSFoundationVersionNumber) > floor(NSFoundationVersionNumber_iOS_7_1)
@@ -457,6 +458,7 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
     
     func notifyAbout(_ geo: JSON) {
         log("Creating notification")
+
         if #available(iOS 10, *) {
             let content = UNMutableNotificationContent()
             content.title = geo["notification"]["text"].stringValue;
